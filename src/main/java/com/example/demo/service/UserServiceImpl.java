@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +26,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public User save(UserRegisterDto userRegisterDto) {
         String password = bCryptPasswordEncoder.encode(userRegisterDto.getPassword());
-        User user = new User(userRegisterDto.getEmail(), password, userRegisterDto.getUserRole());
+        User user = new User(userRegisterDto.getEmail(), password, userRegisterDto.getRole());
         return userRepository.save(user);
     }
 

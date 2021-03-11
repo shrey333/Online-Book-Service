@@ -1,6 +1,6 @@
 package com.example.demo.model;
 
-public enum UserRole {
+public enum Role {
     READER,
     AUTHOR,
     ADMIN

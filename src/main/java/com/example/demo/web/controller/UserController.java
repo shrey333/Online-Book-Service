@@ -1,6 +1,6 @@
 package com.example.demo.web.controller;
 
-import com.example.demo.model.UserRole;
+import com.example.demo.model.Role;
 import com.example.demo.service.UserService;
 import com.example.demo.web.dto.UserRegisterDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,10 +47,10 @@ public class UserController {
             return "register";
         }
         if(type.equals("0")){
-            userRegisterDto.setUserRole(UserRole.READER);
+            userRegisterDto.setRole(Role.READER);
         }
         else{
-            userRegisterDto.setUserRole(UserRole.AUTHOR);
+            userRegisterDto.setRole(Role.AUTHOR);
         }
         userService.save(userRegisterDto);
         authenticateUserAndSetSession(userRegisterDto.getEmail(), userRegisterDto.getPassword(), request);

@@ -1,6 +1,6 @@
 package com.example.demo.web.dto;
 
-import com.example.demo.model.UserRole;
+import com.example.demo.model.Role;
 import lombok.*;
 
 import javax.validation.constraints.Email;
@@ -14,5 +14,5 @@ public class UserRegisterDto {
     private String email;
     @NotBlank
     private String password;
-    private UserRole userRole;
+    private Role role;
 }

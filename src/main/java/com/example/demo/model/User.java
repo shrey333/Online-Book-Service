@@ -25,21 +25,21 @@ public class User implements UserDetails {
     @Column(unique = true)
     private String email;
     private String password;
-    private UserRole userRole;
+    private Role role;
 
     public User(
                    String email,
                    String password,
-                   UserRole userRole) {
+                   Role role) {
         this.email = email;
         this.password = password;
-        this.userRole = userRole;
+        this.role = role;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         SimpleGrantedAuthority authority =
-                new SimpleGrantedAuthority(userRole.name());
+                new SimpleGrantedAuthority(role.name());
         return Collections.singletonList(authority);
     }
 
