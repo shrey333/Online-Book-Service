@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en-us"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{fragments/main_layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Your profile</title>
+</head>
+<body>
+<div layout:fragment="content" class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <br/>
+            <div th:if="${param.success}">
+
+                <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                    Successfully updated.<a class="nav-link" th:href="@{/logout}">Click here to login</a>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+            <h1 class="display-4 mb-3">Your profile</h1>
+            <form th:action="@{/profile}" method="POST" th:object="${user}">
+                <input type="hidden" th:field="*{id}">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control form-control-lg" id="firstName"
+                           placeholder="firstName" th:field="*{firstName}" required autofocus>
+                    <label for="firstName" class="col-form-label">Enter your first name</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control form-control-lg" id="lastName"
+                           placeholder="lastName" th:field="*{lastName}" required >
+                    <label for="lastName" class="col-form-label">Enter your last name</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control form-control-lg" id="email"
+                           placeholder="Email" th:field="*{email}" disabled >
+                    <label for="email" class="col-form-label">Enter your email</label>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-lg">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -21,10 +21,20 @@
                 </div>
             </div>
             <h1 class="display-4 mb-3">Register</h1>
-            <form th:action="@{/register}" method="POST" th:object="${user}">
+            <form th:action="@{/update}" method="POST" th:object="${user}">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control form-control-lg" id="firstName"
+                           placeholder="firstName" th:field="*{firstName}" required autofocus>
+                    <label for="firstName" class="col-form-label">Enter your first name</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control form-control-lg" id="lastName"
+                           placeholder="lastName" th:field="*{lastName}" required >
+                    <label for="lastName" class="col-form-label">Enter your last name</label>
+                </div>
                 <div class="form-floating mb-3">
                     <input type="email" class="form-control form-control-lg" id="email"
-                           placeholder="Email" th:field="*{email}" required autofocus>
+                           placeholder="Email" th:field="*{email}" required >
                     <label for="email" class="col-form-label">Enter your email</label>
                 </div>
                 <div class="form-floating mb-3">

@@ -1245,3 +1245,21 @@ DROP TABLE USER_ROLE [90107-200]
 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:630)
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
 	at java.base/java.lang.Thread.run(Thread.java:832)
+2021-03-11 17:43:24 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM USER USER BOOK[*]"; SQL statement:
+SELECT * FROM USER USER BOOK [42000-200]
+2021-03-11 21:43:04 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "DESCRIPTION VARCHAR(255)": "'A walkthrough of computer science concepts you must know. Designed for readers who don''t care for academic formalities, it''s ... (414)"; SQL statement:
+insert into book (id, cover_data, cover_type, description, doc_data, doc_type, edition, isbn, pages, price, title, user_id) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) [22001-200]
+2021-03-11 21:44:17 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "DESCRIPTION VARCHAR(255)": "'A walkthrough of computer science concepts you must know. Designed for readers who don''t care for academic formalities, it''s ... (414)"; SQL statement:
+insert into book (id, cover_data, cover_type, description, doc_data, doc_type, edition, isbn, pages, price, title, user_id) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) [22001-200]
+2021-03-11 21:48:11 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "DESCRIPTION VARCHAR(255)": "'A walkthrough of computer science concepts you must know. Designed for readers who don''t care for academic formalities, it''s ... (414)"; SQL statement:
+insert into book (id, cover_data, cover_type, description, doc_data, doc_type, edition, isbn, pages, price, title, user_id) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) [22001-200]
+2021-03-11 21:48:43 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM BOOK DESCRIPTION DESCRIPTION[*] DESCRIPTION DESCRIPTION"; SQL statement:
+SELECT * FROM BOOK DESCRIPTION DESCRIPTION DESCRIPTION DESCRIPTION [42000-200]
+2021-03-11 21:50:33 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "DESCRIPTION VARCHAR(255)": "'A walkthrough of computer science concepts you must know. Designed for readers who don''t care for academic formalities, it''s ... (414)"; SQL statement:
+insert into book (id, cover_data, cover_type, description, doc_data, doc_type, edition, isbn, pages, price, title, user_id) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) [22001-200]

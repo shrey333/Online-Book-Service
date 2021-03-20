@@ -5,5 +5,7 @@ import com.example.demo.web.dto.UserRegisterDto;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UserService extends UserDetailsService {
-    User save(UserRegisterDto userRegisterDto);
+    User save(User user);
+    User findUser(String email);
+    User update(User user);
 }

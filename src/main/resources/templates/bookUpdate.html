@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en-us"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{fragments/main_layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Publish Book</title>
+</head>
+<body>
+<div layout:fragment="content" class="container">
+    <div sec:authorize="hasAuthority('READER')" class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <h1 class="display-4 mb-3">You can not access this page.</h1>
+        </div>
+    </div>
+    <div sec:authorize="hasAuthority('AUTHOR')" class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <br/>
+            <div th:if="${param.error}">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    Error occurred.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+            <div th:if="${param.success}">
+                <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                    Successfully updated.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+            <h1 class="display-4 mb-3">Update Book</h1>
+            <form th:action="@{/book/update}" method="POST" th:object="${book}" enctype="multipart/form-data">
+                <input type="hidden" th:field="*{id}">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control form-control-lg" id="isbn"
+                           placeholder="isbn" th:field="*{isbn}" autofocus>
+                    <label for="isbn" class="col-form-label">Enter ISBN of book</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control form-control-lg" id="title"
+                           placeholder="Title" th:field="*{title}" >
+                    <label for="title" class="col-form-label">Enter title of book</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <textarea class="form-control form-control-lg" id="description"
+                              placeholder="description" th:field="*{description}" ></textarea>
+                    <label for="description" class="col-form-label">Enter description of book</label>
+                </div>
+                <div class="form-floating input-group mb-3">
+                    <input type="number" class="form-control form-control-lg" id="pages"
+                           placeholder="pages" th:field="*{pages}" >
+                    <label for="pages" class="col-form-label">Enter number of pages</label>
+                    <span class="input-group-text" id="basic-addon1">pages</span>
+                </div>
+                <div class="form-floating input-group mb-3">
+                    <input type="number" step="0.01" class="form-control form-control-lg" id="price"
+                           placeholder="price" th:field="*{price}" >
+                    <label for="price" class="col-form-label">Enter price of book</label>
+                    <span class="input-group-text" id="basic-addon2">₹(Rupees)</span>
+                </div>
+                <div class="form-floating input-group mb-3">
+                    <input type="number" class="form-control form-control-lg" id="edition"
+                           placeholder="edition" th:field="*{edition}" >
+                    <label for="edition" class="col-form-label">Enter edition of book</label>
+                    <span class="input-group-text" id="basic-addon3"><sup>th</sup>&nbsp;edition</span>
+                </div>
+                <div class="input-group mb-3">
+                    <label class="input-group-text form-control-lg" for="coverFile">Update cover of book</label>
+                    <input type="file" accept="image/*" class="form-control form-control-lg" id="coverFile"
+                           placeholder="coverFile" name="coverFile">
+                </div>
+                <div class="input-group mb-3">
+                    <label class="input-group-text form-control-lg" for="bookFile">Update book</label>
+                    <input type="file" accept="application/pdf" class="form-control form-control-lg" id="bookFile"
+                           placeholder="bookFile" name="bookFile">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-lg">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -12,6 +12,8 @@ public class UserRegisterDto {
     @Email
     @NotBlank
     private String email;
+    private String firstName;
+    private String lastName;
     @NotBlank
     private String password;
     private Role role;

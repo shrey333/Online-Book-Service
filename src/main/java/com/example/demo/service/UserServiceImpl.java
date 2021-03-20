@@ -24,9 +24,20 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User save(UserRegisterDto userRegisterDto) {
-        String password = bCryptPasswordEncoder.encode(userRegisterDto.getPassword());
-        User user = new User(userRegisterDto.getEmail(), password, userRegisterDto.getRole());
+    public User save(User user) {
+        String password = bCryptPasswordEncoder.encode(user.getPassword());
+        user.setPassword(password);
+        user.setDisplayName(user.getFirstName() + " " + user.getLastName());
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User update(User user){
+        User temp = userRepository.getOne(user.getId());
+        user.setRole(temp.getRole());
+        user.setEmail(temp.getEmail());
+        user.setPassword(temp.getPassword());
+        user.setDisplayName(user.getFirstName() + " " + user.getLastName());
         return userRepository.save(user);
     }
 
@@ -37,5 +48,10 @@ public class UserServiceImpl implements UserService{
             throw new UsernameNotFoundException("Invalid username or password.");
         }
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), user.getAuthorities());
+    }
+
+    @Override
+    public User findUser(String email){
+        return userRepository.findByEmail(email);
     }
 }
