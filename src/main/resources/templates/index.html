@@ -35,7 +35,7 @@
                         <small class="text-muted">Published on [[${book.publishDate}]]</small>
                         <br/>
                         <div class="btn-group container" role="group">
-                            <a th:href="@{'book/file/' + ${book.id}}" type="submit" class="btn btn-primary btn-lg">Read</a>
+                            <a th:href="@{'book/view/' + ${book.id}}" type="submit" class="btn btn-primary btn-lg">Read</a>
                             <a sec:authorize="hasAuthority('AUTHOR')" th:href="@{'book/update/' + ${book.id}}" type="submit" class="btn btn-primary btn-lg">Update</a>
                         </div>
                     </div>

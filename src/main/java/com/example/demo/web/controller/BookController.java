@@ -95,6 +95,12 @@ public class BookController {
         return  "redirect:/book/publish?error";
     }
 
+    @GetMapping("/view/{id}")
+    public String view(@PathVariable String id, Model model){
+        Book book = bookService.getBookById(Long.parseLong(id));
+        model.addAttribute("book", book);
+        return "viewPdf";
+    }
 
     @GetMapping("/image/{id}")
     public void showImage(@PathVariable String id,

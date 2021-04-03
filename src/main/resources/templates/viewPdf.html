@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en-us"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>[[${book.title}]]</title><!--
+    <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
+          crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<script src="//mozilla.github.io/pdf.js/build/pdf.js"></script>
+<div class="container-fluid m-xl text-center" style="padding: 20px;">
+        <button id="prev" class="btn btn-outline-primary">Previous</button>
+        <button id="next" class="btn btn-outline-primary">Next</button>
+        <input type="number" id="jumpTo">
+        <button id="zoom-in" class="btn btn-outline-primary">Zoom in</button>
+        <button id="zoom-out" class="btn btn-outline-primary">Zoom out</button>
+        &nbsp;&nbsp;
+        <span>Page: <span id="page_num"></span> / <span id="page_count"></span></span>
+</div>
+<div class="container-fluid text-center" style="padding: 20px;">
+    <canvas id="the-canvas" style="border: 1px solid black;"></canvas>
+</div>
+    <script>
+
+        var url = '/book/file/' + [[${book.id}]];
+
+        var pdfjsLib = window['pdfjs-dist/build/pdf'];
+
+        pdfjsLib.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.js';
+
+        var pdfDoc = null,
+            pageNum = 1,
+            pageRendering = false,
+            pageNumPending = null,
+            scale = 1,
+            canvas = document.getElementById('the-canvas'),
+            ctx = canvas.getContext('2d');
+
+        function renderPage(num) {
+            pageRendering = true;
+            // Using promise to fetch the page
+            pdfDoc.getPage(num).then(function(page) {
+                var viewport = page.getViewport({scale: scale});
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                // Render PDF page into canvas context
+                var renderContext = {
+                    canvasContext: ctx,
+                    viewport: viewport
+                };
+                var renderTask = page.render(renderContext);
+
+                // Wait for rendering to finish
+                renderTask.promise.then(function() {
+                    pageRendering = false;
+                    if (pageNumPending !== null) {
+                        // New page rendering is pending
+                        renderPage(pageNumPending);
+                        pageNumPending = null;
+                    }
+                });
+            });
+
+            // Update page counters
+            document.getElementById('page_num').textContent = num;
+            document.getElementById('jumpTo').value = num;
+        }
+
+        function queueRenderPage(num) {
+            if (pageRendering) {
+                pageNumPending = num;
+            } else {
+                renderPage(num);
+            }
+        }
+
+        function onPrevPage() {
+            if (pageNum <= 1) {
+                return;
+            }
+            pageNum--;
+            queueRenderPage(pageNum);
+        }
+        document.getElementById('prev').addEventListener('click', onPrevPage);
+
+        function onNextPage() {
+            if (pageNum >= pdfDoc.numPages) {
+                return;
+            }
+            pageNum++;
+            queueRenderPage(pageNum);
+        }
+        document.getElementById('next').addEventListener('click', onNextPage);
+
+        function onJumpTo() {
+            let desiredPage = document.getElementById('jumpTo').value;
+            if (desiredPage > pdfDoc.numPages || desiredPage < 1) {
+                return;
+            }
+            pageNum = parseInt(desiredPage);
+            queueRenderPage(pageNum);
+        }
+        document.getElementById('jumpTo').addEventListener('keypress', onJumpTo);
+
+        function onZoomOut() {
+            scale = scale - 0.5;
+            queueRenderPage(pageNum);
+        }
+        document.getElementById('zoom-out').addEventListener('click', onZoomOut);
+
+        function onZoomIn() {
+            scale = scale + 0.5;
+            queueRenderPage(pageNum);
+        }
+        document.getElementById('zoom-in').addEventListener('click', onZoomIn);
+
+        pdfjsLib.getDocument(url).promise.then(function(pdfDoc_) {
+            pdfDoc = pdfDoc_;
+            document.getElementById('page_count').textContent = pdfDoc.numPages;
+
+            // Initial/first page rendering
+            renderPage(pageNum);
+        });
+    </script>
+
+</body>
+</html>
