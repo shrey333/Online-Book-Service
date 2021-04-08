@@ -21,7 +21,7 @@
                 </div>
             </div>
             <h1 class="display-4 mb-3">Register</h1>
-            <form th:action="@{/update}" method="POST" th:object="${user}">
+            <form th:action="@{/register}" method="POST" th:object="${user}">
                 <div class="form-floating mb-3">
                     <input type="text" class="form-control form-control-lg" id="firstName"
                            placeholder="firstName" th:field="*{firstName}" required autofocus>

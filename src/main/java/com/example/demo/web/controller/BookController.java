@@ -87,7 +87,7 @@ public class BookController {
                 book.setDocType(bookFile.getContentType());
             }
             bookService.update(book);
-            return "redirect:/book/update?success";
+            return "index";
         }
         catch(Exception e){
             e.printStackTrace();
